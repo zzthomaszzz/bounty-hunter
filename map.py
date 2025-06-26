@@ -80,6 +80,20 @@ class Map:
         except IndexError:
             return None
 
+    def get_neighbours(self, node):
+        neighbours = []
+        paths = node.get_paths()
+        coordinate = node.coordinate
+        if paths[0]:
+            neighbours.append(self.get_node_at([coordinate[0], coordinate[1] - 1]))
+        if paths[1]:
+            neighbours.append(self.get_node_at([coordinate[0] + 1, coordinate[1]]))
+        if paths[2]:
+            neighbours.append(self.get_node_at([coordinate[0], coordinate[1] + 1]))
+        if paths[3]:
+            neighbours.append(self.get_node_at([coordinate[0] - 1, coordinate[1]]))
+
+        return neighbours
 
 if __name__ == "__main__":
     test = Map()
@@ -87,7 +101,11 @@ if __name__ == "__main__":
 
     for y in test.game_map:
         for x in y:
-            print(x.get_paths())
+            _ = test.get_neighbours(x)
+            coors = []
+            for item in _:
+                coors.append(item.coordinate)
+            print(coors)
 
-    print(test.get_node_at([0, 2]))
-    print(test.get_node_at([9, 2]))
+
+
