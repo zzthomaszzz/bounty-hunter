@@ -1,7 +1,7 @@
 
 default_map = [
     [6, 7, 5, 5, 3, 6, 7, 3],
-    [1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 15],
     [1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1],
@@ -76,7 +76,9 @@ class Map:
 
     def get_node_at(self, coordinate):
         try:
-            return self.game_map[coordinate[1]][coordinate[0]]
+            if coordinate[0] >= 0 and coordinate[1] >= 0:
+                return self.game_map[coordinate[1]][coordinate[0]]
+            return None
         except IndexError:
             return None
 
@@ -85,14 +87,21 @@ class Map:
         paths = node.get_paths()
         coordinate = node.coordinate
         if paths[0]:
-            neighbours.append(self.get_node_at([coordinate[0], coordinate[1] - 1]))
+            node = self.get_node_at([coordinate[0], coordinate[1] - 1])
+            if node:
+                neighbours.append(node)
         if paths[1]:
-            neighbours.append(self.get_node_at([coordinate[0] + 1, coordinate[1]]))
+            node = self.get_node_at([coordinate[0] + 1, coordinate[1]])
+            if node:
+                neighbours.append(node)
         if paths[2]:
-            neighbours.append(self.get_node_at([coordinate[0], coordinate[1] + 1]))
+            node = self.get_node_at([coordinate[0], coordinate[1] + 1])
+            if node:
+                neighbours.append(node)
         if paths[3]:
-            neighbours.append(self.get_node_at([coordinate[0] - 1, coordinate[1]]))
-
+            node = self.get_node_at([coordinate[0] - 1, coordinate[1]])
+            if node:
+                neighbours.append(node)
         return neighbours
 
 if __name__ == "__main__":
@@ -101,6 +110,7 @@ if __name__ == "__main__":
 
     for y in test.game_map:
         for x in y:
+            print("Checking node at (" + str(x.coordinate[0]) + "," + str(x.coordinate[1]) + ")")
             _ = test.get_neighbours(x)
             coors = []
             for item in _:
