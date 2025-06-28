@@ -104,6 +104,9 @@ class Map:
                 neighbours.append(node)
         return neighbours
 
+MAP = Map()
+MAP.generate_map(default_map)
+
 if __name__ == "__main__":
     test = Map()
     test.generate_map(default_map)

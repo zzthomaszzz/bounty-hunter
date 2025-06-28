@@ -4,6 +4,7 @@ import random
 import pickle
 from bounty_hunter import *
 from player import Player
+from map import MAP
 
 HOST = '127.0.0.1'  # Localhost
 PORT = 5000
@@ -32,6 +33,27 @@ def process_data(data, _id):
             players.append(player_data)
             message = pickle.dumps(player_data)
             return message
+        case "position":
+            position = {}
+            for player in players:
+                position[player.id] = player.get_position()
+            message = pickle.dumps(position)
+            return message
+        case "player_count":
+            count = len(players)
+            message = pickle.dumps(count)
+            return message
+        case "player_pick":
+            picks = {}
+            for player in players:
+                picks[player.id] = player.bounty_hunter.name
+            message = pickle.dumps(picks)
+            return message
+        case "map":
+            message = pickle.dumps(MAP)
+            return message
+
+
 
 
 
